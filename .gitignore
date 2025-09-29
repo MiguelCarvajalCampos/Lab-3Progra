@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+.venv/
+env/
+.env/
+venv.bak
+.env.bak
+
+# Archivo de variables de entorno (¡Muy importante!)
+.env
+
+# Archivos de configuración de IDEs y editores
+.vscode/
+.idea/
+
+# Archivos del sistema operativo
+.DS_Store
+
+# Archivos de distribución y construcción
+build/
+dist/
+*.egg-info/
