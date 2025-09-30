@@ -1,0 +1,8 @@
+# backend/requirements.txt
+fastapi
+uvicorn[standard]
+sqlmodel
+python-jose[cryptography]
+bcrypt==3.2.0
+passlib
+python-multipart
