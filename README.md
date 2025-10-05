@@ -38,7 +38,7 @@ Aplicación web de gestión de tareas con autenticación de usuarios, desarrolla
 ### 1️Clonar el Repositorio
 
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/MiguelCarvajalCampos/Lab-3Progra.git
 cd Lab-3Progra
 ```
 
