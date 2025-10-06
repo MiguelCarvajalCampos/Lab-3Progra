@@ -15,36 +15,27 @@ const TaskCard = ({ task, onDelete, onUpdateStatus, onEdit }) => {
     onUpdateStatus(task.id, e.target.value);
   };
 
-  const getPriorityColor = (priority) => {
-    switch (priority) {
-      case 'high': return 'bg-red-500';
-      case 'medium': return 'bg-yellow-500';
-      case 'low': return 'bg-green-500';
-      default: return 'bg-gray-500';
-    }
-  };
-
   const getStatusColor = (status) => {
     switch (status) {
-      case 'todo': return 'bg-gray-700 border-gray-600';
-      case 'in_progress': return 'bg-blue-900 border-blue-700';
-      case 'done': return 'bg-green-900 border-green-700';
-      default: return 'bg-gray-700 border-gray-600';
+      case 'todo': return 'bg-gray-50 border-gray-300';
+      case 'in_progress': return 'bg-blue-50 border-blue-300';
+      case 'done': return 'bg-green-50 border-green-300';
+      default: return 'bg-gray-50 border-gray-300';
     }
   };
 
   return (
-    <div className={`${getStatusColor(task.status)} border-2 p-4 rounded-xl shadow-lg mb-4 hover:shadow-xl transition-all duration-300`}>
+    <div className={`${getStatusColor(task.status)} border-2 p-4 rounded-xl shadow-md mb-4 hover:shadow-lg transition-all duration-300`}>
       <div className="flex justify-between items-start mb-3">
         <div className="flex-1">
-          <h3 className="font-bold text-lg text-white mb-1">{task.title}</h3>
+          <h3 className="font-bold text-lg text-gray-900 mb-1">{task.title}</h3>
           {task.description && (
-            <p className="text-gray-300 text-sm">{task.description}</p>
+            <p className="text-gray-600 text-sm">{task.description}</p>
           )}
         </div>
         <button 
           onClick={handleDelete}
-          className="text-gray-400 hover:text-red-500 text-2xl font-bold ml-2 transition-colors"
+          className="text-gray-400 hover:text-red-600 text-2xl font-bold ml-2 transition-colors"
         >
           ×
         </button>
@@ -67,7 +58,7 @@ const TaskCard = ({ task, onDelete, onUpdateStatus, onEdit }) => {
 
       {/* Due Date */}
       {task.due_date && (
-        <div className="text-xs text-gray-400 mb-3">
+        <div className="text-xs text-gray-500 mb-3">
           📅 {new Date(task.due_date).toLocaleDateString('es-ES', {
             day: 'numeric',
             month: 'long',
@@ -80,7 +71,7 @@ const TaskCard = ({ task, onDelete, onUpdateStatus, onEdit }) => {
         <select
           value={task.status}
           onChange={handleStatusChange}
-          className="bg-gray-800 text-white text-sm rounded-lg px-3 py-2 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+          className="bg-white text-gray-900 text-sm rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
         >
           <option value="todo">📋 Sin Iniciar</option>
           <option value="in_progress">⚡ En Progreso</option>
@@ -95,7 +86,7 @@ const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [view, setView] = useState('board'); // 'board' o 'calendar'
+  const [view, setView] = useState('board');
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const { user, logout } = useAuth();
@@ -144,7 +135,6 @@ const Dashboard = () => {
   const inProgressTasks = tasks.filter(t => t.status === 'in_progress');
   const doneTasks = tasks.filter(t => t.status === 'done');
 
-  // Funciones para navegar en el calendario
   const goToPreviousMonth = () => {
     if (currentMonth === 0) {
       setCurrentMonth(11);
@@ -169,41 +159,39 @@ const Dashboard = () => {
     setCurrentYear(today.getFullYear());
   };
 
-  // Calendar View Logic
   const calendarDate = new Date(currentYear, currentMonth);
   const monthName = calendarDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-  const adjustedFirstDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1; // Ajustar para que Lunes sea 0
+  const adjustedFirstDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
   
-  // Verificar si estamos en el mes actual
   const today = new Date();
   const isCurrentMonth = currentMonth === today.getMonth() && currentYear === today.getFullYear();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-900 to-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white text-gray-800">
       {/* Header */}
-      <header className="bg-black bg-opacity-30 backdrop-blur-sm border-b border-gray-700">
+      <header className="bg-white shadow-md border-b border-gray-200">
         <div className="container mx-auto px-4 sm:px-8 py-4">
           <div className="flex flex-wrap justify-between items-center gap-4">
             <div>
-              <h1 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-4xl font-bold text-blue-600">
                 Gestor de Tareas
               </h1>
               {user && (
-                <p className="text-gray-300 text-sm sm:text-base mt-1">
-                  Hola, <span className="font-semibold text-indigo-300">{user.name}</span> ({user.email})
+                <p className="text-gray-600 text-sm sm:text-base mt-1">
+                  Hola, <span className="font-semibold text-blue-600">{user.name}</span> ({user.email})
                 </p>
               )}
             </div>
 
             <div className="flex items-center gap-2 sm:gap-4">
               {/* View Toggle */}
-              <div className="flex bg-gray-800 rounded-lg p-1">
+              <div className="flex bg-gray-100 rounded-lg p-1">
                 <button
                   onClick={() => setView('board')}
                   className={`px-3 py-2 rounded-md text-sm font-semibold transition-colors ${
-                    view === 'board' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'
+                    view === 'board' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
                   📋 Tablero
@@ -211,7 +199,7 @@ const Dashboard = () => {
                 <button
                   onClick={() => setView('calendar')}
                   className={`px-3 py-2 rounded-md text-sm font-semibold transition-colors ${
-                    view === 'calendar' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'
+                    view === 'calendar' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
                   📅 Calendario
@@ -220,14 +208,14 @@ const Dashboard = () => {
 
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg hover:from-indigo-700 hover:to-purple-700 font-semibold transition-all shadow-lg hover:shadow-indigo-500/50"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition-all shadow-md hover:shadow-lg"
               >
                 + Nueva Tarea
               </button>
 
               <button
                 onClick={logout}
-                className="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700 font-semibold transition-colors"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold transition-colors shadow-md"
               >
                 Salir
               </button>
@@ -240,23 +228,23 @@ const Dashboard = () => {
       <main className="container mx-auto px-4 sm:px-8 py-8">
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-500"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-600"></div>
           </div>
         ) : (
           <>
             {/* Statistics */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-              <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm p-6 rounded-xl border border-gray-700">
-                <div className="text-3xl font-bold text-indigo-400">{todoTasks.length}</div>
-                <div className="text-gray-400 text-sm">Tareas pendientes</div>
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-md">
+                <div className="text-3xl font-bold text-blue-600">{todoTasks.length}</div>
+                <div className="text-gray-600 text-sm">Tareas pendientes</div>
               </div>
-              <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm p-6 rounded-xl border border-gray-700">
-                <div className="text-3xl font-bold text-blue-400">{inProgressTasks.length}</div>
-                <div className="text-gray-400 text-sm">En progreso</div>
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-md">
+                <div className="text-3xl font-bold text-blue-600">{inProgressTasks.length}</div>
+                <div className="text-gray-600 text-sm">En progreso</div>
               </div>
-              <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm p-6 rounded-xl border border-gray-700">
-                <div className="text-3xl font-bold text-green-400">{doneTasks.length}</div>
-                <div className="text-gray-400 text-sm">Completadas</div>
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-md">
+                <div className="text-3xl font-bold text-green-600">{doneTasks.length}</div>
+                <div className="text-gray-600 text-sm">Completadas</div>
               </div>
             </div>
 
@@ -264,16 +252,16 @@ const Dashboard = () => {
             {view === 'board' && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Column: Sin Iniciar */}
-                <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm p-6 rounded-xl border border-gray-700">
+                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-md">
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-gray-200">📋 Sin Iniciar</h2>
-                    <span className="bg-gray-700 px-3 py-1 rounded-full text-sm font-semibold">
+                    <h2 className="text-xl font-bold text-gray-900">📋 Sin Iniciar</h2>
+                    <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">
                       {todoTasks.length}
                     </span>
                   </div>
                   <div className="space-y-4">
                     {todoTasks.length === 0 ? (
-                      <p className="text-gray-500 text-center py-8">No hay tareas pendientes</p>
+                      <p className="text-gray-400 text-center py-8">No hay tareas pendientes</p>
                     ) : (
                       todoTasks.map(task => (
                         <TaskCard
@@ -288,16 +276,16 @@ const Dashboard = () => {
                 </div>
 
                 {/* Column: En Progreso */}
-                <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm p-6 rounded-xl border border-gray-700">
+                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-md">
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-blue-200">⚡ En Progreso</h2>
-                    <span className="bg-blue-900 px-3 py-1 rounded-full text-sm font-semibold">
+                    <h2 className="text-xl font-bold text-blue-600">⚡ En Progreso</h2>
+                    <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
                       {inProgressTasks.length}
                     </span>
                   </div>
                   <div className="space-y-4">
                     {inProgressTasks.length === 0 ? (
-                      <p className="text-gray-500 text-center py-8">No hay tareas en progreso</p>
+                      <p className="text-gray-400 text-center py-8">No hay tareas en progreso</p>
                     ) : (
                       inProgressTasks.map(task => (
                         <TaskCard
@@ -312,16 +300,16 @@ const Dashboard = () => {
                 </div>
 
                 {/* Column: Completadas */}
-                <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm p-6 rounded-xl border border-gray-700">
+                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-md">
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-green-200">✅ Completadas</h2>
-                    <span className="bg-green-900 px-3 py-1 rounded-full text-sm font-semibold">
+                    <h2 className="text-xl font-bold text-green-600">✅ Completadas</h2>
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
                       {doneTasks.length}
                     </span>
                   </div>
                   <div className="space-y-4">
                     {doneTasks.length === 0 ? (
-                      <p className="text-gray-500 text-center py-8">No hay tareas completadas</p>
+                      <p className="text-gray-400 text-center py-8">No hay tareas completadas</p>
                     ) : (
                       doneTasks.map(task => (
                         <TaskCard
@@ -339,27 +327,27 @@ const Dashboard = () => {
 
             {/* Calendar View */}
             {view === 'calendar' && (
-              <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm p-8 rounded-xl border border-gray-700">
+              <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-md">
                 <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
-                  <h2 className="text-3xl font-bold capitalize">{monthName}</h2>
+                  <h2 className="text-3xl font-bold capitalize text-gray-900">{monthName}</h2>
                   <div className="flex gap-2">
                     <button 
                       onClick={goToPreviousMonth}
-                      className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors font-semibold"
+                      className="px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors font-semibold"
                     >
                       ← Anterior
                     </button>
                     {!isCurrentMonth && (
                       <button 
                         onClick={goToToday}
-                        className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors font-semibold"
+                        className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg transition-colors font-semibold"
                       >
                         Hoy
                       </button>
                     )}
                     <button 
                       onClick={goToNextMonth}
-                      className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors font-semibold"
+                      className="px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors font-semibold"
                     >
                       Siguiente →
                     </button>
@@ -369,7 +357,7 @@ const Dashboard = () => {
                 {/* Calendar Grid */}
                 <div className="grid grid-cols-7 gap-2 mb-4">
                   {['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map(day => (
-                    <div key={day} className="text-center font-semibold text-indigo-400 py-2">
+                    <div key={day} className="text-center font-semibold text-blue-600 py-2">
                       {day}
                     </div>
                   ))}
@@ -398,10 +386,10 @@ const Dashboard = () => {
                         key={day}
                         className={`aspect-square flex flex-col items-center justify-center rounded-lg cursor-pointer transition-all ${
                           isToday
-                            ? 'bg-indigo-600 text-white font-bold ring-2 ring-indigo-400'
+                            ? 'bg-blue-600 text-white font-bold ring-2 ring-blue-400'
                             : tasksForDay.length > 0
-                            ? 'bg-gray-700 hover:bg-indigo-700'
-                            : 'bg-gray-700 hover:bg-gray-600'
+                            ? 'bg-gray-100 hover:bg-blue-600 hover:text-white'
+                            : 'bg-gray-50 hover:bg-gray-200'
                         }`}
                       >
                         <span className="text-lg">{day}</span>
@@ -417,17 +405,17 @@ const Dashboard = () => {
 
                 {/* Tasks with due dates */}
                 <div className="mt-8">
-                  <h3 className="text-xl font-bold mb-4">Tareas próximas</h3>
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">Tareas próximas</h3>
                   <div className="space-y-2">
                     {tasks
                       .filter(task => task.due_date)
                       .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
                       .slice(0, 5)
                       .map(task => (
-                        <div key={task.id} className="bg-gray-700 p-4 rounded-lg flex justify-between items-center">
+                        <div key={task.id} className="bg-gray-50 p-4 rounded-lg flex justify-between items-center border border-gray-200">
                           <div>
-                            <p className="font-semibold">{task.title}</p>
-                            <p className="text-sm text-gray-400">
+                            <p className="font-semibold text-gray-900">{task.title}</p>
+                            <p className="text-sm text-gray-600">
                               {new Date(task.due_date).toLocaleDateString('es-ES', {
                                 day: 'numeric',
                                 month: 'long',
@@ -436,8 +424,8 @@ const Dashboard = () => {
                             </p>
                           </div>
                           <span className={`px-3 py-1 text-xs rounded-full ${
-                            task.status === 'done' ? 'bg-green-600' :
-                            task.status === 'in_progress' ? 'bg-blue-600' : 'bg-gray-600'
+                            task.status === 'done' ? 'bg-green-100 text-green-700' :
+                            task.status === 'in_progress' ? 'bg-blue-100 text-blue-700' : 'bg-gray-200 text-gray-700'
                           }`}>
                             {task.status === 'done' ? 'Completada' :
                              task.status === 'in_progress' ? 'En progreso' : 'Pendiente'}

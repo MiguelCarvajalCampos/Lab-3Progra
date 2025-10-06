@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { createTask, getTags, createTag } from '../api/apiService';
 
 const CreateTaskModal = ({ onClose, onTaskCreated }) => {
-  // Estados para fecha y hora separados
   const now = new Date();
   const [day, setDay] = useState(String(now.getDate()).padStart(2, '0'));
   const [month, setMonth] = useState(String(now.getMonth() + 1).padStart(2, '0'));
@@ -17,9 +16,8 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
   const [selectedTagIds, setSelectedTagIds] = useState([]);
   const [error, setError] = useState('');
 
-  // Estados para crear etiquetas
   const [newTagName, setNewTagName] = useState('');
-  const [newTagColor, setNewTagColor] = useState('#6366f1'); // Indigo por defecto
+  const [newTagColor, setNewTagColor] = useState('#2563eb'); // Azul por defecto
   const [isCreatingTag, setIsCreatingTag] = useState(false);
 
   useEffect(() => {
@@ -54,7 +52,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
       const response = await createTag({ name: newTagName.trim(), color: newTagColor });
       setAllTags([...allTags, response.data]);
       setNewTagName('');
-      setNewTagColor('#6366f1');
+      setNewTagColor('#2563eb');
       setError('');
     } catch (err) {
       console.error("Error creating tag:", err);
@@ -64,7 +62,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     }
   };
 
-  // Formatear fecha para mostrar en español
   const formatDateForDisplay = () => {
     try {
       const dateObj = new Date(year, month - 1, day, hour, minute);
@@ -80,7 +77,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     }
   };
 
-  // Validar fecha
   const isValidDate = () => {
     const d = parseInt(day);
     const m = parseInt(month);
@@ -109,7 +105,6 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     }
 
     try {
-      // Crear objeto Date con los valores separados
       const dueDateTime = new Date(
         parseInt(year),
         parseInt(month) - 1,
@@ -135,28 +130,27 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     }
   };
 
-  // Colores predefinidos para las etiquetas
   const presetColors = [
-    '#6366f1', // Indigo
-    '#8b5cf6', // Purple
-    '#ec4899', // Pink
-    '#ef4444', // Red
-    '#f59e0b', // Amber
-    '#10b981', // Green
-    '#06b6d4', // Cyan
-    '#3b82f6', // Blue
+    '#2563eb', // Blue
+    '#7c3aed', // Purple
+    '#db2777', // Pink
+    '#dc2626', // Red
+    '#ea580c', // Orange
+    '#16a34a', // Green
+    '#0891b2', // Cyan
+    '#4f46e5', // Indigo
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4 backdrop-blur-sm">
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-700">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4 backdrop-blur-sm">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-200">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold text-gray-900">
             Crear Nueva Tarea
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white text-3xl font-bold transition-colors"
+            className="text-gray-400 hover:text-gray-900 text-3xl font-bold transition-colors"
           >
             ×
           </button>
@@ -165,7 +159,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Título */}
           <div>
-            <label htmlFor="title" className="block text-sm font-semibold text-gray-300 mb-2">
+            <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-2">
               Título *
             </label>
             <input
@@ -175,13 +169,13 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
               onChange={(e) => setTitle(e.target.value)}
               required
               placeholder="Ej: Completar proyecto de programación"
-              className="w-full px-4 py-3 text-white bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-500"
+              className="w-full px-4 py-3 text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
             />
           </div>
 
           {/* Descripción */}
           <div>
-            <label htmlFor="description" className="block text-sm font-semibold text-gray-300 mb-2">
+            <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-2">
               Descripción
             </label>
             <textarea
@@ -190,18 +184,17 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
               onChange={(e) => setDescription(e.target.value)}
               rows="3"
               placeholder="Añade más detalles sobre esta tarea..."
-              className="w-full px-4 py-3 text-white bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-500 resize-none"
+              className="w-full px-4 py-3 text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 resize-none"
             />
           </div>
 
           {/* Fecha de vencimiento */}
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
               Fecha de vencimiento *
             </label>
             
             <div className="grid grid-cols-5 gap-2 mb-2">
-              {/* Día */}
               <input
                 type="number"
                 placeholder="DD"
@@ -210,12 +203,11 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 value={day}
                 onChange={(e) => setDay(e.target.value.padStart(2, '0'))}
                 required
-                className="col-span-1 px-4 py-3 text-white text-center bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-500"
+                className="col-span-1 px-4 py-3 text-gray-900 text-center bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
               />
               
-              <span className="flex items-center justify-center text-gray-500 text-xl">/</span>
+              <span className="flex items-center justify-center text-gray-400 text-xl">/</span>
               
-              {/* Mes */}
               <input
                 type="number"
                 placeholder="MM"
@@ -224,12 +216,11 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 value={month}
                 onChange={(e) => setMonth(e.target.value.padStart(2, '0'))}
                 required
-                className="col-span-1 px-4 py-3 text-white text-center bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-500"
+                className="col-span-1 px-4 py-3 text-gray-900 text-center bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
               />
               
-              <span className="flex items-center justify-center text-gray-500 text-xl">/</span>
+              <span className="flex items-center justify-center text-gray-400 text-xl">/</span>
               
-              {/* Año */}
               <input
                 type="number"
                 placeholder="YYYY"
@@ -238,12 +229,11 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 value={year}
                 onChange={(e) => setYear(e.target.value)}
                 required
-                className="col-span-1 px-4 py-3 text-white text-center bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-500"
+                className="col-span-1 px-4 py-3 text-gray-900 text-center bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
               />
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-              {/* Hora */}
               <input
                 type="number"
                 placeholder="HH"
@@ -252,12 +242,11 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 value={hour}
                 onChange={(e) => setHour(e.target.value.padStart(2, '0'))}
                 required
-                className="px-4 py-3 text-white text-center bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-500"
+                className="px-4 py-3 text-gray-900 text-center bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
               />
               
-              <span className="flex items-center justify-center text-gray-500 text-xl">:</span>
+              <span className="flex items-center justify-center text-gray-400 text-xl">:</span>
               
-              {/* Minutos */}
               <input
                 type="number"
                 placeholder="MM"
@@ -266,12 +255,12 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                 value={minute}
                 onChange={(e) => setMinute(e.target.value.padStart(2, '0'))}
                 required
-                className="px-4 py-3 text-white text-center bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-500"
+                className="px-4 py-3 text-gray-900 text-center bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
               />
             </div>
 
             {isValidDate() && (
-              <p className="mt-2 text-sm text-indigo-400">
+              <p className="mt-2 text-sm text-blue-600">
                 📅 {formatDateForDisplay()}
               </p>
             )}
@@ -282,10 +271,10 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
           {/* Etiquetas existentes */}
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-3">
+            <label className="block text-sm font-semibold text-gray-700 mb-3">
               Etiquetas (opcional)
             </label>
-            <div className="flex flex-wrap gap-2 p-4 bg-gray-900 rounded-lg border border-gray-600 min-h-[60px]">
+            <div className="flex flex-wrap gap-2 p-4 bg-gray-50 rounded-lg border border-gray-300 min-h-[60px]">
               {allTags.length > 0 ? (
                 allTags.map(tag => (
                   <button
@@ -295,7 +284,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                     className={`px-4 py-2 text-sm font-semibold rounded-full transition-all ${
                       selectedTagIds.includes(tag.id)
                         ? 'text-white shadow-lg scale-105'
-                        : 'text-gray-300 bg-gray-700 hover:bg-gray-600'
+                        : 'text-gray-700 bg-gray-200 hover:bg-gray-300'
                     }`}
                     style={{
                       backgroundColor: selectedTagIds.includes(tag.id) ? tag.color : undefined
@@ -305,18 +294,17 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                   </button>
                 ))
               ) : (
-                <p className="text-sm text-gray-500">No hay etiquetas. Créalas abajo.</p>
+                <p className="text-sm text-gray-400">No hay etiquetas. Créalas abajo.</p>
               )}
             </div>
           </div>
 
           {/* Crear nueva etiqueta */}
-          <div className="p-4 border-2 border-dashed border-gray-700 rounded-lg bg-gray-900">
-            <label className="block text-sm font-semibold text-gray-300 mb-3">
+          <div className="p-4 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
+            <label className="block text-sm font-semibold text-gray-700 mb-3">
               ✨ Crear Nueva Etiqueta
             </label>
             
-            {/* Colores predefinidos */}
             <div className="flex flex-wrap gap-2 mb-3">
               {presetColors.map(color => (
                 <button
@@ -324,7 +312,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                   type="button"
                   onClick={() => setNewTagColor(color)}
                   className={`w-10 h-10 rounded-full transition-all ${
-                    newTagColor === color ? 'ring-4 ring-white scale-110' : 'hover:scale-105'
+                    newTagColor === color ? 'ring-4 ring-blue-400 scale-110' : 'hover:scale-105'
                   }`}
                   style={{ backgroundColor: color }}
                   title={color}
@@ -351,13 +339,13 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
                     handleCreateTag();
                   }
                 }}
-                className="flex-grow px-4 py-2 text-white bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500"
+                className="flex-grow px-4 py-2 text-gray-900 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
               />
               <button
                 type="button"
                 onClick={handleCreateTag}
                 disabled={isCreatingTag || !newTagName.trim()}
-                className="px-6 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
               >
                 {isCreatingTag ? '...' : 'Añadir'}
               </button>
@@ -366,23 +354,23 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
 
           {/* Error message */}
           {error && (
-            <div className="bg-red-500 bg-opacity-10 border border-red-500 text-red-400 px-4 py-3 rounded-lg text-sm">
+            <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg text-sm">
               {error}
             </div>
           )}
 
           {/* Botones de acción */}
-          <div className="flex justify-end gap-4 pt-4 border-t border-gray-700">
+          <div className="flex justify-end gap-4 pt-4 border-t border-gray-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 bg-gray-700 rounded-lg hover:bg-gray-600 font-semibold transition-colors"
+              className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-semibold transition-colors"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg hover:from-indigo-700 hover:to-purple-700 font-semibold transition-all shadow-lg hover:shadow-indigo-500/50"
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition-all shadow-md hover:shadow-lg"
             >
               Crear Tarea
             </button>

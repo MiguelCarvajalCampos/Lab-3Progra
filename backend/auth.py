@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 import os
 
 # --- Configuración de Seguridad ---
-# Se recomienda cargar estos valores desde variables de entorno .env [cite: 76]
 SECRET_KEY = os.environ.get("SECRET_KEY", "your_secret_key")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30

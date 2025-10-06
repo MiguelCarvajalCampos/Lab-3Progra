@@ -7,10 +7,10 @@ from typing import List
 from jose import JWTError, jwt # <--- IMPORTACIÓN AÑADIDA
 
 # Importa modelos, funciones y la base de datos
-from backend.database import engine, create_db_and_tables
-from backend.models import User, UserCreate, UserRead, Task, TaskCreate, TaskRead, TaskUpdate
-from backend.auth import get_password_hash, verify_password, create_access_token, oauth2_scheme, SECRET_KEY, ALGORITHM
-from backend.models import Tag, TagCreate, TagRead, TaskTagLink
+from database import engine, create_db_and_tables
+from models import User, UserCreate, UserRead, Task, TaskCreate, TaskRead, TaskUpdate
+from auth import get_password_hash, verify_password, create_access_token, oauth2_scheme, SECRET_KEY, ALGORITHM
+from models import Tag, TagCreate, TagRead, TaskTagLink
 app = FastAPI()
 
 # --- Configuración de CORS ---
