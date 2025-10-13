@@ -1,4 +1,3 @@
-// frontend/src/pages/Dashboard.jsx
 import React, { useEffect, useState } from 'react';
 import { getTasks, deleteTask, updateTask } from '../api/apiService';
 import CreateTaskModal from '../components/CreateTaskModal';

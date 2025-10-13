@@ -1,8 +1,7 @@
-// frontend/src/api/apiService.js
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api', // URL de tu backend
+  baseURL: 'http://localhost:8000/api',
 });
 
 // Interceptor para añadir el token a todas las peticiones
@@ -24,16 +23,11 @@ export const login = (credentials) => {
   return apiClient.post('/auth/login', formData);
 };
 
-// --- ESTA ES LA FUNCIÓN QUE FALTABA ---
 export const getCurrentUser = () => apiClient.get('/users/me');
 
-
-// --- NUEVO: Funciones para Etiquetas ---
 export const getTags = () => apiClient.get('/tags');
 export const createTag = (tagData) => apiClient.post('/tags', tagData);
 
-
-// --- Funciones de API de Tareas ---
 export const getTasks = () => apiClient.get('/tasks');
 export const createTask = (taskData) => apiClient.post('/tasks', taskData);
 export const updateTask = (id, taskData) => apiClient.put(`/tasks/${id}`, taskData);

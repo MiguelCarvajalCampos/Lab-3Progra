@@ -1,4 +1,3 @@
-// frontend/src/components/CreateTaskModal.jsx
 import React, { useState, useEffect } from 'react';
 import { createTask, getTags, createTag } from '../api/apiService';
 
