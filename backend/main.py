@@ -1,10 +1,9 @@
-# backend/main.py
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OAuth2PasswordRequestForm # <--- IMPORTACIÓN AÑADIDA
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import Session, select
 from typing import List
-from jose import JWTError, jwt # <--- IMPORTACIÓN AÑADIDA
+from jose import JWTError, jwt
 
 # Importa modelos, funciones y la base de datos
 from database import engine, create_db_and_tables
@@ -80,7 +79,6 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), ses
     return {"access_token": access_token, "token_type": "bearer"}
 
 # --- Endpoints de Tareas ---
-# (El resto del código de Tareas permanece igual)
 @app.post("/api/tasks", response_model=TaskRead, status_code=status.HTTP_201_CREATED)
 def create_task(task_in: TaskCreate, current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
     # Creamos la tarea sin las etiquetas primero

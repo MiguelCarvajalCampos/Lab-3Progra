@@ -1,4 +1,3 @@
-# backend/database.py
 from sqlmodel import create_engine, SQLModel
 
 DATABASE_URL = "sqlite:///./tasks.db"

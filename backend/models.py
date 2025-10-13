@@ -1,4 +1,3 @@
-# backend/models.py
 from typing import Optional, List
 from sqlmodel import Field, SQLModel, Relationship
 from datetime import datetime
@@ -54,7 +53,7 @@ class UserBase(SQLModel):
 class User(UserBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     password_hash: str
-    # CORRECCIÓN: "Task" debe estar entre comillas porque se define más abajo.
+    # Task" debe estar entre comillas porque se define más abajo.
     tasks: List["Task"] = Relationship(back_populates="owner")
 
 class UserCreate(UserBase):
