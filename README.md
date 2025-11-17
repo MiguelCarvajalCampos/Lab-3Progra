@@ -82,6 +82,10 @@ Desde la carpeta `backend/` con el entorno virtual activo:
 ```bash
 uvicorn main:app --reload
 ```
+En aws
+```bash
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
 
 El servidor estará disponible en: **http://localhost:8000**
 
@@ -118,10 +122,14 @@ La aplicación estará disponible en: **http://localhost:5173**
    cd frontend
    npm run dev
    ```
+   En aws
+   ```bash
+   npm run dev -- --host
+   ```
 
-3. Abre tu navegador en **http://localhost:5173**
+4. Abre tu navegador en **http://localhost:5173**
 
-4. Registra un nuevo usuario y comienza a gestionar tus tareas
+5. Registra un nuevo usuario y comienza a gestionar tus tareas
 
 ## Estructura del Proyecto
 
