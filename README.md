@@ -105,6 +105,10 @@ npm install
 ```bash
 npm run dev
 ```
+En aws
+```bash
+npm run dev -- --host
+```
 
 La aplicación estará disponible en: **http://localhost:5173**
 
